@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lastant.mapper.LifeRechargeOrderMapper">
+    
+    <resultMap type="LifeRechargeOrder" id="LifeRechargeOrderResult">
+        <result property="id"    column="id"    />
+        <result property="orderNo"    column="order_no"    />
+        <result property="userId"    column="user_id"    />
+        <result property="amount"    column="amount"    />
+        <result property="status"    column="status"    />
+        <result property="paymentMethod"    column="payment_method"    />
+        <result property="extraField1"    column="extra_field_1"    />
+        <result property="extraField2"    column="extra_field_2"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectLifeRechargeOrderVo">
+        select id, order_no, user_id, amount, status, payment_method, extra_field_1, extra_field_2, create_time, update_time from life_recharge_order
+    </sql>
+
+    <select id="selectLifeRechargeOrderList" parameterType="LifeRechargeOrder" resultMap="LifeRechargeOrderResult">
+        <include refid="selectLifeRechargeOrderVo"/>
+        <where>  
+            <if test="orderNo != null  and orderNo != ''"> and order_no = #{orderNo}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="amount != null "> and amount = #{amount}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="paymentMethod != null "> and payment_method = #{paymentMethod}</if>
+            <if test="extraField1 != null  and extraField1 != ''"> and extra_field_1 = #{extraField1}</if>
+            <if test="extraField2 != null  and extraField2 != ''"> and extra_field_2 = #{extraField2}</if>
+        </where>
+    </select>
+    
+    <select id="selectLifeRechargeOrderById" parameterType="Long" resultMap="LifeRechargeOrderResult">
+        <include refid="selectLifeRechargeOrderVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertLifeRechargeOrder" parameterType="LifeRechargeOrder" useGeneratedKeys="true" keyProperty="id">
+        insert into life_recharge_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderNo != null and orderNo != ''">order_no,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="amount != null">amount,</if>
+            <if test="status != null">status,</if>
+            <if test="paymentMethod != null">payment_method,</if>
+            <if test="extraField1 != null">extra_field_1,</if>
+            <if test="extraField2 != null">extra_field_2,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderNo != null and orderNo != ''">#{orderNo},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="amount != null">#{amount},</if>
+            <if test="status != null">#{status},</if>
+            <if test="paymentMethod != null">#{paymentMethod},</if>
+            <if test="extraField1 != null">#{extraField1},</if>
+            <if test="extraField2 != null">#{extraField2},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLifeRechargeOrder" parameterType="LifeRechargeOrder">
+        update life_recharge_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderNo != null and orderNo != ''">order_no = #{orderNo},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="amount != null">amount = #{amount},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="paymentMethod != null">payment_method = #{paymentMethod},</if>
+            <if test="extraField1 != null">extra_field_1 = #{extraField1},</if>
+            <if test="extraField2 != null">extra_field_2 = #{extraField2},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteLifeRechargeOrderById" parameterType="Long">
+        delete from life_recharge_order where id = #{id}
+    </delete>
+
+    <delete id="deleteLifeRechargeOrderByIds" parameterType="String">
+        delete from life_recharge_order where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lastant.mapper.LifeElectricMeterMapper">
+    
+    <resultMap type="LifeElectricMeter" id="LifeElectricMeterResult">
+        <result property="id"    column="id"    />
+        <result property="meterNo"    column="meter_no"    />
+        <result property="location"    column="location"    />
+        <result property="userId"    column="user_id"    />
+        <result property="status"    column="status"    />
+        <result property="extraField1"    column="extra_field_1"    />
+        <result property="extraField2"    column="extra_field_2"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectLifeElectricMeterVo">
+        select id, meter_no, location, user_id, status, extra_field_1, extra_field_2, create_time, update_time from life_electric_meter
+    </sql>
+
+    <select id="selectLifeElectricMeterList" parameterType="LifeElectricMeter" resultMap="LifeElectricMeterResult">
+        <include refid="selectLifeElectricMeterVo"/>
+        <where>  
+            <if test="meterNo != null  and meterNo != ''"> and meter_no = #{meterNo}</if>
+            <if test="location != null  and location != ''"> and location = #{location}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="extraField1 != null  and extraField1 != ''"> and extra_field_1 = #{extraField1}</if>
+            <if test="extraField2 != null  and extraField2 != ''"> and extra_field_2 = #{extraField2}</if>
+        </where>
+    </select>
+    
+    <select id="selectLifeElectricMeterById" parameterType="Long" resultMap="LifeElectricMeterResult">
+        <include refid="selectLifeElectricMeterVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertLifeElectricMeter" parameterType="LifeElectricMeter" useGeneratedKeys="true" keyProperty="id">
+        insert into life_electric_meter
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="meterNo != null and meterNo != ''">meter_no,</if>
+            <if test="location != null">location,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="status != null">status,</if>
+            <if test="extraField1 != null">extra_field_1,</if>
+            <if test="extraField2 != null">extra_field_2,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="meterNo != null and meterNo != ''">#{meterNo},</if>
+            <if test="location != null">#{location},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="status != null">#{status},</if>
+            <if test="extraField1 != null">#{extraField1},</if>
+            <if test="extraField2 != null">#{extraField2},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLifeElectricMeter" parameterType="LifeElectricMeter">
+        update life_electric_meter
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="meterNo != null and meterNo != ''">meter_no = #{meterNo},</if>
+            <if test="location != null">location = #{location},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="extraField1 != null">extra_field_1 = #{extraField1},</if>
+            <if test="extraField2 != null">extra_field_2 = #{extraField2},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteLifeElectricMeterById" parameterType="Long">
+        delete from life_electric_meter where id = #{id}
+    </delete>
+
+    <delete id="deleteLifeElectricMeterByIds" parameterType="String">
+        delete from life_electric_meter where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

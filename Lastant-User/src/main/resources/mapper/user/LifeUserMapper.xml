@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lastant.mapper.LifeUserMapper">
+    
+    <resultMap type="LifeUser" id="LifeUserResult">
+        <result property="id"    column="id"    />
+        <result property="username"    column="username"    />
+        <result property="password"    column="password"    />
+        <result property="phone"    column="phone"    />
+        <result property="openId"    column="open_id"    />
+        <result property="unionId"    column="union_id"    />
+        <result property="avatar"    column="avatar"    />
+        <result property="nickname"    column="nickname"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="totalCommission"    column="total_commission"    />
+        <result property="withdrawableCommission"    column="withdrawable_commission"    />
+        <result property="balance"    column="balance"    />
+        <result property="extraField1"    column="extra_field_1"    />
+        <result property="extraField2"    column="extra_field_2"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectLifeUserVo">
+        select id, username, password, phone, open_id, union_id, avatar, nickname, parent_id, total_commission, withdrawable_commission, balance, extra_field_1, extra_field_2, create_time, update_time from life_user
+    </sql>
+
+    <select id="selectLifeUserList" parameterType="LifeUser" resultMap="LifeUserResult">
+        <include refid="selectLifeUserVo"/>
+        <where>  
+            <if test="username != null  and username != ''"> and username like concat('%', #{username}, '%')</if>
+            <if test="password != null  and password != ''"> and password = #{password}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="openId != null  and openId != ''"> and open_id = #{openId}</if>
+            <if test="unionId != null  and unionId != ''"> and union_id = #{unionId}</if>
+            <if test="avatar != null  and avatar != ''"> and avatar = #{avatar}</if>
+            <if test="nickname != null  and nickname != ''"> and nickname like concat('%', #{nickname}, '%')</if>
+            <if test="parentId != null "> and parent_id = #{parentId}</if>
+            <if test="totalCommission != null "> and total_commission = #{totalCommission}</if>
+            <if test="withdrawableCommission != null "> and withdrawable_commission = #{withdrawableCommission}</if>
+            <if test="balance != null "> and balance = #{balance}</if>
+            <if test="extraField1 != null  and extraField1 != ''"> and extra_field_1 = #{extraField1}</if>
+            <if test="extraField2 != null  and extraField2 != ''"> and extra_field_2 = #{extraField2}</if>
+        </where>
+    </select>
+    
+    <select id="selectLifeUserById" parameterType="Long" resultMap="LifeUserResult">
+        <include refid="selectLifeUserVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertLifeUser" parameterType="LifeUser" useGeneratedKeys="true" keyProperty="id">
+        insert into life_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username != null">username,</if>
+            <if test="password != null">password,</if>
+            <if test="phone != null">phone,</if>
+            <if test="openId != null">open_id,</if>
+            <if test="unionId != null">union_id,</if>
+            <if test="avatar != null">avatar,</if>
+            <if test="nickname != null">nickname,</if>
+            <if test="parentId != null">parent_id,</if>
+            <if test="totalCommission != null">total_commission,</if>
+            <if test="withdrawableCommission != null">withdrawable_commission,</if>
+            <if test="balance != null">balance,</if>
+            <if test="extraField1 != null">extra_field_1,</if>
+            <if test="extraField2 != null">extra_field_2,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="username != null">#{username},</if>
+            <if test="password != null">#{password},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="openId != null">#{openId},</if>
+            <if test="unionId != null">#{unionId},</if>
+            <if test="avatar != null">#{avatar},</if>
+            <if test="nickname != null">#{nickname},</if>
+            <if test="parentId != null">#{parentId},</if>
+            <if test="totalCommission != null">#{totalCommission},</if>
+            <if test="withdrawableCommission != null">#{withdrawableCommission},</if>
+            <if test="balance != null">#{balance},</if>
+            <if test="extraField1 != null">#{extraField1},</if>
+            <if test="extraField2 != null">#{extraField2},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLifeUser" parameterType="LifeUser">
+        update life_user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="username != null">username = #{username},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="openId != null">open_id = #{openId},</if>
+            <if test="unionId != null">union_id = #{unionId},</if>
+            <if test="avatar != null">avatar = #{avatar},</if>
+            <if test="nickname != null">nickname = #{nickname},</if>
+            <if test="parentId != null">parent_id = #{parentId},</if>
+            <if test="totalCommission != null">total_commission = #{totalCommission},</if>
+            <if test="withdrawableCommission != null">withdrawable_commission = #{withdrawableCommission},</if>
+            <if test="balance != null">balance = #{balance},</if>
+            <if test="extraField1 != null">extra_field_1 = #{extraField1},</if>
+            <if test="extraField2 != null">extra_field_2 = #{extraField2},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteLifeUserById" parameterType="Long">
+        delete from life_user where id = #{id}
+    </delete>
+
+    <delete id="deleteLifeUserByIds" parameterType="String">
+        delete from life_user where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+</mapper>
